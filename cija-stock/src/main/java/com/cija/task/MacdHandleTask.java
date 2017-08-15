@@ -14,10 +14,11 @@ import org.cija.tools.CsvUtils;
 import com.cija.task.bo.HistoryPojo;
 
 /**
- * MacdHandle
- * ˾ƣ []
- * []
- * ʱ䣺 2017728 6:24:42
+ * 
+ * 类名： MacdHandleTask 
+ * 公司名称： []
+ * 描述：[]
+ * 创建时间： 2017年8月14日 下午9:02:42 
  * @author FC
  */
 public class MacdHandleTask{

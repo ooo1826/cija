@@ -53,15 +53,21 @@ public class MacdUtils{
 	/**
 	 * 
 	 * 方法名： macd
-	 * 描述：[计算macd、diff、dea]
-	 * 创建时间： 2017年7月22日 下午2:33:17
+	 * 描述：[]
+	 * 创建时间： 2017年8月15日 下午8:38:26
 	 * @param histories
+	 *        macd数据
 	 * @param map
-	 *        
+	 *        返回结果
+	 * @param is_open
+	 *        开启INTERCEPT_start_date时间后最高点计算
 	 */
-	public static void macd(final List<HistoryPojo> histories,final Map<String,Object> map){
+	public static void macd(final List<HistoryPojo> histories,final Map<String,Object> map,boolean is_open){
 		// 最近一个高点时间--配置获取
-		Date date=(Date)map.get(Const.INTERCEPT_start_date);
+		Date date=null;
+		if(is_open){
+			date=(Date)map.get(Const.INTERCEPT_start_date);
+		}
 		
 		BigDecimal ema12=new BigDecimal(0);
 		BigDecimal ema12_front=new BigDecimal(0);
@@ -115,10 +121,12 @@ public class MacdUtils{
 			dea_front=dea;
 			/* ==========================#计算macd结束========================== */
 			/* ==========================#计算最近至高点日期开始========================== */
-			if(history.getDate().getTime()>date.getTime()){
-				if(history.getClose().compareTo(max)>0){
-					max=history.getClose();
-					map.put(Const.INTERCEPT_max_colse,history);
+			if(is_open){
+				if(history.getDate().getTime()>date.getTime()){
+					if(history.getClose().compareTo(max)>0){
+						max=history.getClose();
+						map.put(Const.INTERCEPT_max_colse,history);
+					}
 				}
 			}
 			/* ==========================#计算最近至高点日期结束========================== */
@@ -136,7 +144,7 @@ public class MacdUtils{
 	 * @param map
 	 */
 	public static Map<String,Object> handle(final List<HistoryPojo> histories,final Map<String,Object> map){
-		macd(histories,map);
+		macd(histories,map,true);
 		/* ==========================#短期最高收盘价往后的macd数据========================== */
 		
 		HistoryPojo INTERCEPT_max_colse=(HistoryPojo)map.get(Const.INTERCEPT_max_colse);
